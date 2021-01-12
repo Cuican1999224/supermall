@@ -1,22 +1,39 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物街</div> </nav-bar>
+    <swiper>
+      <swiper-item v-for="item in banners">
+         <a :href="item.link"></a>
+        <img :src="item.img" alt="">
+      </swiper-item>
+    </swiper>
   </div>
 </template>
 
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import {getHomeMultidata} from "network/home"
+import {Switch, SwiperItem} from 'components/common/swiper'
 
 export default {
 name:"Home",
 components:{
-  NavBar
+  NavBar,
+Swiper,
+SwiperItem
+},
+data(){
+  return {
+    banners:[],
+    recommends:[]
+  }
 },
 created(){
-  getHomeMultidata().then(Request){
+  getHomeMultidata().then(res =>{
     console.log(res);
-  }
+    this.banners = res.data.banner.list;
+    this.recommends = res.data.recommend.list;
+  })
 }
 }
 </script>
